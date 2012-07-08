@@ -1,0 +1,69 @@
+@CHARSET "UTF-8";
+
+#container {
+	float: none;
+	margin: 0;
+	width: 100%;
+}
+
+#content {
+	width: 910px;
+	margin: 0 !important;
+	padding: 0 25px;
+}
+
+#navbar {
+	width: 100%;
+	background: #E9BD7F;
+}
+
+#navbar a {
+	color: #4D260D;
+	font-weight: 800;
+	line-height: 30px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 16px;
+	display: inline;
+	padding: 3px 10px;
+}
+
+#navbar ul {
+	list-style: none;
+	width: 100%;
+	text-align: center;
+}
+
+#navbar ul li {
+	display: inline;
+}
+
+#navbar ul li a {
+	padding: 5px;
+	margin: 0px 10px;
+}
+
+#application_form label {
+	text-align: left;
+	float: left;
+	margin: 0px 0px 7px 0px;
+	display: block;
+	width: 80%;
+}
+#application_form textarea,
+#application_form input {
+	margin: 0px 0px 7px 0px;
+	clear: left;
+}
+
+#application_form input {
+	width: 250px;
+}
+#application_form textarea {
+	width: 80%;
+	height: 80px;
+}
+#application_form .submitapp {
+	width: auto;
+	padding: 0px 20px;
+	border-radius: 5px;
+}
