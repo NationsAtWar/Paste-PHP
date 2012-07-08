@@ -1,30 +1,24 @@
 <?php
 
-define('HTTPROOT', 			'http://'.$_SERVER['SERVER_NAME']);
-define('LOCALROOT', 		str_replace("/index.php","",$_SERVER['SCRIPT_FILENAME']).'/');
-define('SUBDIR',			str_replace("/index.php","",$_SERVER['SCRIPT_NAME']).'/');
+	define('HTTPROOT', 			'http://'.$_SERVER['SERVER_NAME']);
+	define('LOCALROOT', 		str_replace("/index.php","",$_SERVER['SCRIPT_FILENAME']).'/');
+	define('SUBDIR',			str_replace("/index.php","",$_SERVER['SCRIPT_NAME']).'/');
 
-define('PANEL_DBUSERNAME', 'pasteweb');
-define('PANEL_DBPASSWORD', '');
-define('PANEL_DBHOSTNAME', 'localhost');
-define('PANEL_DBDATABASE', 'pasteweb');
+	define('PANEL_DBUSERNAME', 'pasteweb');
+	define('PANEL_DBPASSWORD', '');
+	define('PANEL_DBHOSTNAME', 'localhost');
+	define('PANEL_DBDATABASE', 'pasteweb');
 
-if($_POST) {
-	$return = array('result' => 'error');
-	if($_POST['rpc'] && $_POST['username'] && $_POST['token']) {
-		if(compareToken($_POST['token'], $_POST['username'])) {
-			token($_POST['username']);
-			activateToken($_POST['username']);
-			$return['result'] = "success";
-		}
-	}
-	echo json_encode($return);
-	exit;
-} 
+	$conn = mysql_connect($PANEL_DBHOSTNAME, PANEL_DBUSERNAME, PANEL_DBPASSWORD) or die('Error connecting to mysql');
+	mysql_select_db($PANEL_DBDATABASE);
 
+	$query = "CREATE TABLE IF NOT EXISTS `requests` (`Id` int(11) NOT NULL AUTO_INCREMENT, `Time` datetime NOT NULL, `Type` text NOT NULL, `Status` text NOT NULL, `User` text NOT NULL, `Data` text NOT NULL, PRIMARY KEY (`Id`) ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19;";
 
-// Completing the script and displaying the page.
-//page_footer();
+	$result = mysql_query($query);
+	$errno = mysql_errno();
+
+	// Completing the script and displaying the page.
+	//page_footer();
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -85,22 +79,20 @@ if($_POST) {
 				<div id="content" role="main">
 				
 					<h2>Panel Database Installer</h2>
-					<form id="install_form" name="app" action="install.php" method="post">
 					<p>
-						<label for="token">
-							Token:
-						</label>
-							<input type="text" name="token" />
+						<?php
+							if($errno == 0)
+							{
+								echo "Table 'requests' successfully created!<br/>";
+								echo "You may now delete ".HTTPROOT.SUBDIR."/install.php";
+							}
+							else
+							{
+								echo "There was a problem creating table 'requests'.<br/>";
+								echo "Error ".$errno.": ".mysql_error();
+							}
+						?>
 					</p>
-					<p>
-						<label for="username">
-							Minecraft Username:
-						</label>
-							<input type="text" name="username" />
-					</p>
-					<input class="submitapp" type="submit" value="Submit" />
-					</form>
-					<p id="result">&nbsp;</p>
 				</div>
 			</div>
 			<!-- #content -->
